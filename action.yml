@@ -1,5 +1,6 @@
 name: 'Artifact-DL'
-description: 'Artifact-DL allows you to download all of the artifacts of a Workflow or many workflows. Just specify the commits of the workflows you'd like to download artifacts for as a JSON list for the input.'
+description: "Artifact-DL allows you to download all of the artifacts of a Workflow or many workflows. Just specify the commits of the workflows you would like to download artifacts for as a JSON list for the input."
+
 inputs:
   repo_path:
     description: 'Location of the Git Repository'
