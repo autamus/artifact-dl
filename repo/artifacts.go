@@ -56,11 +56,6 @@ func DownloadArtifact(path, gitToken, outputPath string, workflowID int64, artif
 		return err
 	}
 
-	err = os.MkdirAll(filepath.Join(outputPath, fmt.Sprintf("%d", workflowID)), os.ModePerm)
-	if err != nil {
-		return err
-	}
-
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
@@ -81,8 +76,17 @@ func DownloadArtifact(path, gitToken, outputPath string, workflowID int64, artif
 			continue
 		}
 
+		err = os.MkdirAll(filepath.Dir(filepath.Join(outputPath, fmt.Sprintf("%d", workflowID), artifact.GetName(), zipFile.Name)), os.ModePerm)
+		if err != nil {
+			return err
+		}
+
+		if zipFile.FileInfo().IsDir() {
+			continue
+		}
+
 		err = os.WriteFile(
-			filepath.Join(outputPath, fmt.Sprintf("%d", workflowID), artifact.GetName()),
+			filepath.Join(outputPath, fmt.Sprintf("%d", workflowID), artifact.GetName(), zipFile.Name),
 			buf,
 			os.ModePerm,
 		)
